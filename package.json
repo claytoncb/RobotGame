@@ -1,0 +1,22 @@
+{
+  "name": "robocop",
+  "version": "1.0.0",
+  "description": "Robot Video Game",
+  "main": "Launcher.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claytoncb/RobotGame.git"
+  },
+  "keywords": [
+    "robot"
+  ],
+  "author": "Clayton Bruce",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/claytoncb/RobotGame/issues"
+  },
+  "homepage": "https://github.com/claytoncb/RobotGame#readme"
+}

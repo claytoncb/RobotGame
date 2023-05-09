@@ -2,16 +2,32 @@ import pygame
 from PIL import Image
 import math
 from HelperLibrary import LightingGenerator
+from settings import *
 
 class GrassPlane(pygame.sprite.Sprite):
-    def next(self):
+    def update(self,dt):
+        self.input()
+        self.nextTime(dt)
         image = LightingGenerator.getLittyGrass(self.imageColors,LightingGenerator.getLightingVecXZ(self.t),self.imageNormals).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
         self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
-    def nextAnimation(self):
-        self.z+=1
-    def nextTime(self):
-        self.t+=1
-    def __init__(self,width, height, pos_x, pos_y, pos_z):
+    def nextTime(self,dt):
+        self.t+=dt/1000
+    def input (self):
+        keys = pygame.key.get_pressed()
+        if keys[K_LEFT]:
+            print('left')
+            self.x+=5
+        if keys[K_RIGHT]:
+            print('right')
+            self.x-=5
+        if keys[K_UP]:
+            print('up')
+            self.y+=5
+        if keys[K_DOWN]:
+            print('down')
+            self.y-=5
+        self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
+    def __init__(self,width, height, pos_x, pos_y, scale):
         super().__init__()
         self.keyframes = [0,1,2,1,0,3,4,3]
         self.imageColors = Image.open(f"src\\Entities\\Grass\\grassColor.png")
@@ -22,10 +38,9 @@ class GrassPlane(pygame.sprite.Sprite):
         self.movingUp = False
         self.movingDown = False
         self.t = math.pi*12
-        self.scale = 128
+        self.scale = scale
         self.x = pos_x
         self.y = pos_y
         self.width = width
         self.height = height
-        self.next()
-        self.rect = pygame.rect.Rect(self.x, self.y, width, height)
+        self.update(0)

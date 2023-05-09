@@ -11,20 +11,20 @@ class GrassPlane(pygame.sprite.Sprite):
         image = LightingGenerator.getLittyGrass(self.imageColors,LightingGenerator.getLightingVecXZ(self.t),self.imageNormals).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
         self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
     def nextTime(self,dt):
-        self.t+=dt/1000
+        self.t+=dt/DAYLIGHT_DIVISOR
     def input (self):
         keys = pygame.key.get_pressed()
         if keys[K_LEFT]:
-            print('left')
+            if BUTTON_FEEDBACK: print('left')
             self.x+=5
         if keys[K_RIGHT]:
-            print('right')
+            if BUTTON_FEEDBACK: print('right')
             self.x-=5
         if keys[K_UP]:
-            print('up')
+            if BUTTON_FEEDBACK: print('up')
             self.y+=5
         if keys[K_DOWN]:
-            print('down')
+            if BUTTON_FEEDBACK: print('down')
             self.y-=5
         self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
     def __init__(self,width, height, pos_x, pos_y, scale):

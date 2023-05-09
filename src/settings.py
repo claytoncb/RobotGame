@@ -4,4 +4,6 @@ K_LEFT = ord('a')
 K_RIGHT = ord('d')
 K_UP = ord('w')
 K_DOWN = ord('s')
-SCALE = 128
+SCALE = 64
+BUTTON_FEEDBACK = False
+DAYLIGHT_DIVISOR = 10

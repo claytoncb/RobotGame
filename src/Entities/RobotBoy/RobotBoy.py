@@ -13,21 +13,21 @@ class RobotBoy(pygame.sprite.Sprite):
     def nextAnimation(self,dt):
         self.z+=1
     def nextTime(self,dt):
-        self.t+=dt/1000
+        self.t+=dt/DAYLIGHT_DIVISOR
     def input (self,dt):
         keys = pygame.key.get_pressed()
         if keys[K_LEFT]:
-            print('left')  
+            if BUTTON_FEEDBACK: print('left')  
             self.imageColors = self.imageColorsLeft
             self.imageNormals= self.imageNormalsLeft
         if keys[K_RIGHT]:
-            print('right') 
+            if BUTTON_FEEDBACK: print('right') 
             self.imageColors = self.imageColorsRight
             self.imageNormals= self.imageNormalsRight
         if keys[K_UP]:
-            print('up')  
+            if BUTTON_FEEDBACK: print('up')  
         if keys[K_DOWN]:
-            print('down')
+            if BUTTON_FEEDBACK: print('down')
         if keys[K_LEFT] or keys[K_RIGHT] or keys[K_UP] or keys[K_DOWN]:
             self.nextAnimation(dt)
         else:
@@ -37,7 +37,8 @@ class RobotBoy(pygame.sprite.Sprite):
             
     def __init__(self,width, height, pos_x, pos_y, scale):
         super().__init__()
-        self.keyframes = [0,1,2,1,0,3,4,3]
+        #self.keyframes = [0,1,2,1,0,3,4,3]
+        self.keyframes = [0,2,0,4]
         self.imageColorsLeft = [ Image.open(f"src\\Entities\\RobotBoy\\Textures\\robotBoyColor{i}.png") for i in self.keyframes ]
         self.imageNormalsLeft = [ Image.open(f"src\\Entities\\RobotBoy\\Textures\\robotBoyNormals{i}.png") for i in self.keyframes ]
         self.imageColorsRight = [ Image.open(f"src\\Entities\\RobotBoy\\Textures\\robotBoyColorRight{i}.png") for i in self.keyframes ]

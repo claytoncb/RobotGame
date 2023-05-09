@@ -2,8 +2,10 @@ from PIL import Image
 import numpy as np
 import math
 from numpy.linalg import norm
+import torch
 
 def lightContributionFromNormals(normals, lightingVec):
+    print(torch.cuda.is_available())
     lightContribution = []
     for normalRows in normals:
         row = []

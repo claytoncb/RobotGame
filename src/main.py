@@ -43,13 +43,13 @@ def getLitty(imageColor, lightingVec, imageNormal):
                 elif (color == eyesColor).all():
                     material = eyesMaterial
                 else:
-                    newColors[row][col] = [1,1,1,1]
+                    newColors[row][col] = [0,0,0,0]
                     break
                 index = math.floor(lightContribution[row][col]*(len(material)/2)+(len(material)/2))
                 color = material[index]
                 newColors[row][col] = color
             else:
-                newColors[row][col] = [1,1,1,1]
+                newColors[row][col] = [0,0,0,0]
         
 
     imageLitty = Image.fromarray(np.array(newColors),'RGBA')
@@ -63,12 +63,52 @@ def makeGif(imageColors, imageNormals,keyframes):
         gif.append(getLitty(imageColors[z%len(keyframes)],getLightingVecXZ(z),imageNormals[z%len(keyframes)]).resize((512,512), resample=Image.Resampling.NEAREST ))
     gif[0].save('temp_result.gif', save_all=True,optimize=False, append_images=gif[1:], loop=0)
 
+def reverse_rows_and_save(filenames):
+    for i,img in enumerate(filenames):
+
+        # Reverse the rows of the image
+        #rgb = Image.Image.split(img)
+
+        # Swap the red and blue channels
+        #img = Image.merge("RGBA", (rgb[2], rgb[1], rgb[0],rgb[3]))
+
+        
+        arr = np.array(img)
+
+# Slice the array to remove the first 6 pixels in the first 3 rows
+        old = np.array(arr[0:3, 0:6, :])
+        arr[0:3, 0:6, :] = 0
+
+# Convert the NumPy array back to an image
+        img = Image.fromarray(arr)
 
 
-keyframes = [0,1,2,1,0,3,4,3]
+        # Reverse the rows of the cropped image
+        img = img.transpose(method=Image.Transpose.FLIP_LEFT_RIGHT)
+
+        arr = np.array(img)
+
+# Slice the array to remove the first 6 pixels in the first 3 rows
+        print(f"old values: {old}")
+        arr[0:3, 0:6, :] = old
+        print(f"new values: {arr[0:3, 0:6, :]}")
+
+        img = Image.fromarray(arr)
+
+        # Paste the flipped image back into the original image
+
+        # Create the new filename
+        new_filename = f"src\\Textures\\RobotBoy\\robotBoyColorRight{i}.png"
+
+        # Save the reversed image to the new filename
+        img.save(new_filename)
+
+#keyframes = [0,1,2,1,0,3,4,3]
+keyframes = [0,1,2,3,4]
 imageColors = [ Image.open(f"src\\Textures\\RobotBoy\\robotBoyColor{i}.png") for i in keyframes ]
 imageNormals = [ Image.open(f"src\\Textures\\RobotBoy\\robotBoyNormals{i}.png") for i in keyframes ]
-makeGif(imageColors,imageNormals,keyframes)
+#makeGif(imageColors,imageNormals,keyframes)
+reverse_rows_and_save(imageColors)
 #getLitty(imageColor,np.array([-1,0,1]),imageNormal).show()
 
             

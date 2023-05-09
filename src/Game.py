@@ -21,6 +21,29 @@ def lightContributionFromNormals(normals, lightingVec):
         lightContribution.append(row)
     return lightContribution
 
+def getLittyGrass(imageColor, lightingVec, imageNormal):
+    colors = np.array(imageColor.getdata()).reshape(imageColor.size[0], imageColor.size[1], 4)
+    normals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)
+    lightContribution = lightContributionFromNormals(normals,lightingVec)
+
+    bodyMaterial = { i: color for i,color in enumerate(colors[0][:8])}
+    bodyColor = bodyMaterial[0]
+    newColors = np.zeros((imageColor.size[0], imageColor.size[1],4), dtype=np.uint8)
+    for row, colorRow in enumerate(colors):
+        for col, color in enumerate(colorRow):
+            if (not ((color==0).all())and not((row<1) and(col < 8))):
+                if (color == bodyColor).all():
+                    material = bodyMaterial
+                index = math.floor(lightContribution[row][col]*(len(material)/2)+(len(material)/2))
+                color = material[index]
+                newColors[row][col] = color
+            else:
+                newColors[row][col] = [1,1,1,1]
+        
+
+    imageLitty = Image.fromarray(np.array(newColors),'RGBA')
+    return imageLitty
+
 def getLitty(imageColor, lightingVec, imageNormal):
     colors = np.array(imageColor.getdata()).reshape(imageColor.size[0], imageColor.size[1], 4)
     normals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)
@@ -35,16 +58,13 @@ def getLitty(imageColor, lightingVec, imageNormal):
     newColors = np.zeros((imageColor.size[0], imageColor.size[1],4), dtype=np.uint8)
     for row, colorRow in enumerate(colors):
         for col, color in enumerate(colorRow):
-            if (col>5 and not (color==0).all()):
+            if (not (color==0).all()) and not ((row<=2 and col <= 6)):
                 if (color == bodyColor).all():
                     material = bodyMaterial
                 elif (color == faceColor).all():
                     material = faceMaterial
                 elif (color == eyesColor).all():
                     material = eyesMaterial
-                else:
-                    newColors[row][col] = [1,1,1,1]
-                    break
                 index = math.floor(lightContribution[row][col]*(len(material)/2)+(len(material)/2))
                 color = material[index]
                 newColors[row][col] = color
@@ -65,7 +85,7 @@ class RobotGuy(pygame.sprite.Sprite):
     def nextAnimation(self):
         self.z+=1
     def nextTime(self):
-        self.t+=.01
+        self.t+=0.01
     def __init__(self,width, height, pos_x, pos_y, pos_z):
         super().__init__()
         self.keyframes = [0,1,2,1,0,3,4,3]
@@ -91,12 +111,12 @@ class RobotGuy(pygame.sprite.Sprite):
 
 class GrassPlane(pygame.sprite.Sprite):
     def next(self):
-        image = getLitty(self.imageColors,getLightingVecXZ(self.t),self.imageNormals).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
+        image = getLittyGrass(self.imageColors,getLightingVecXZ(self.t),self.imageNormals).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
         self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
     def nextAnimation(self):
         self.z+=1
     def nextTime(self):
-        self.t+=.01
+        self.t+=0.01
     def __init__(self,width, height, pos_x, pos_y, pos_z):
         super().__init__()
         self.keyframes = [0,1,2,1,0,3,4,3]
@@ -122,80 +142,75 @@ clock = pygame.time.Clock()
 screen_width = screen_height = 1024
 screen = pygame.display.set_mode((screen_width, screen_height), flags=pygame.SCALED, vsync=1)
 
-robotGuy = RobotGuy(50,50,screen_height/2-50,screen_width/2-50,0)
-grassPlane = GrassPlane(50,50,screen_height/2,screen_width/2,0)
+robotGuy = RobotGuy(64,64,screen_width/2-50,screen_height/2-50,0)
+grassPlanes = [GrassPlane(64,64,screen_width/2+36*i,screen_height/2-56*i,0) for i in range(5)]
 
 group = pygame.sprite.Group()
-group.add(grassPlane)
+for grassPlane in grassPlanes:
+    group.add(grassPlane)
 group.add(robotGuy)
+grassPlane = grassPlanes[0]
 
 main = True
 while main:
     for event in pygame.event.get():
-        for object in group:
-            object.nextTime()
         if event.type == pygame.QUIT:
             pygame.quit()
+            main = False
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT or event.key == ord('a'):
-                print('left')
                 grassPlane.movingLeft = True
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                print('right')
                 grassPlane.movingRight = True
             if event.key == pygame.K_UP or event.key == ord('w'):
-                print('up')
                 grassPlane.movingUp = True
             if event.key == pygame.K_DOWN or event.key == ord('s'):
-                print('down')
                 grassPlane.movingDown= True
-
-                
-
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == ord('a'):
-                print('left stop')
                 grassPlane.movingLeft = False
-                grassPlane.z = 0
+                robotGuy.z = 0
             if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                print('right stop')
                 grassPlane.movingRight = False
-                grassPlane.z = 0
+                robotGuy.z = 0
             if event.key == pygame.K_UP or event.key == ord('w'):
-                print('up stop')
                 grassPlane.movingUp = False
-                grassPlane.z = 0
+                robotGuy.z = 0
             if event.key == pygame.K_DOWN or event.key == ord('s'):
-                print('down stop')
                 grassPlane.movingDown = False
-                grassPlane.z = 0
+                robotGuy.z = 0
             if event.key == ord('q'):
                 pygame.quit()
                 main = False
                 sys.exit()
         
         if grassPlane.movingLeft ^ grassPlane.movingRight:
-            grassPlane.nextAnimation()
-            robotGuy.nextAnimation()
-            if grassPlane.movingLeft:
-                for object in group:
+            for object in group:
+                object.nextAnimation()
+                if grassPlane.movingLeft:
                     if not isinstance(object, RobotGuy):
-                        object.x+=8
-                robotGuy.imageColors = robotGuy.imageColorsLeft
-                robotGuy.imageNormals= robotGuy.imageNormalsLeft
-            elif grassPlane.movingRight:
-                grassPlane.x-=8
-                robotGuy.imageColors = robotGuy.imageColorsRight
-                robotGuy.imageNormals= robotGuy.imageNormalsRight
-            if grassPlane.movingDown:
-                grassPlane.y-=4
-            elif grassPlane.movingUp:
-                grassPlane.y+=4
-            if (grassPlane.movingRight or grassPlane.movingLeft) or (grassPlane.movingUp or grassPlane.movingDown):
-                grassPlane.rect = pygame.rect.Rect(grassPlane.x, grassPlane.y, grassPlane.width, grassPlane.height)
-        screen.fill([255,255,255])
+                        object.x+=16
+                    robotGuy.imageColors = robotGuy.imageColorsLeft
+                    robotGuy.imageNormals= robotGuy.imageNormalsLeft
+                elif grassPlane.movingRight:
+                    if not isinstance(object, RobotGuy):
+                        object.x-=16
+                    robotGuy.imageColors = robotGuy.imageColorsRight
+                    robotGuy.imageNormals= robotGuy.imageNormalsRight
+                if grassPlane.movingDown:
+                    if not isinstance(object, RobotGuy):
+                        object.y-=8
+                elif grassPlane.movingUp:
+                    if not isinstance(object, RobotGuy):
+                        object.y+=8
+                if (grassPlane.movingRight or grassPlane.movingLeft) or (grassPlane.movingUp or grassPlane.movingDown):
+                    if not isinstance(object, RobotGuy):
+                        object.rect = pygame.rect.Rect(object.x, object.y, object.width, object.height)
+        screen.fill([0,0,0,0])
         for object in group:
             object.next()
+            object.nextTime()
         group.draw(screen)
         pygame.display.update()
+        clock.tick(60)

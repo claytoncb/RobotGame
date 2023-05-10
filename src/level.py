@@ -1,4 +1,6 @@
+from typing import Iterable, Union
 import pygame
+from pygame.sprite import AbstractGroup
 from Entities.Grass import GrassPlane
 from Entities.RobotBoy.Body import Body
 from Entities.RobotBoy.Head import Head
@@ -11,7 +13,7 @@ class Level:
         self.display_surface = pygame.display.get_surface()
 
         #sprite groups
-        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = CameraGroup()
         self.robot = pygame.sprite.Group()
         self.body = Body(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32,SCALE)
         self.head = Head(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32,SCALE)
@@ -28,3 +30,7 @@ class Level:
         self.display_surface.fill('black')
         self.all_sprites.draw(self.display_surface)
         self.all_sprites.update(dt)
+
+class CameraGroup(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()

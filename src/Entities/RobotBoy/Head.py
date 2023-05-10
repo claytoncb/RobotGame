@@ -34,7 +34,7 @@ class Head(pygame.sprite.Sprite):
         self.t+=dt
     def input (self):
         x,y = pygame.mouse.get_pos()
-        self.z = (math.floor(math.atan2(((y-self.y)/256),((x-self.x)/256))/math.pi*6+6.5)-3)%12
+        self.z = (math.floor(math.atan2(((y-self.y)/256),((-32+x-self.x)/256))/math.pi*6+6.5)-3)%12
 
             
             

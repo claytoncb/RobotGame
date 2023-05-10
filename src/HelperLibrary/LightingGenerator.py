@@ -2,10 +2,8 @@ from PIL import Image
 import numpy as np
 import math
 from numpy.linalg import norm
-import torch
 
 def lightContributionFromNormals(normals, lightingVec):
-    print(torch.cuda.is_available())
     lightContribution = []
     for normalRows in normals:
         row = []
@@ -13,10 +11,8 @@ def lightContributionFromNormals(normals, lightingVec):
             normalVec = np.array([(normal[0]-127),(normal[1]-127),(normal[2]-127)])
             lightingVec = lightingVec / norm(lightingVec)
             normalVec = normalVec / norm(normalVec)
-            if (not (normalVec == 0).all()) and (not (lightingVec == 0).all()):          
-                out = np.dot(normalVec,lightingVec)/(norm(normalVec)*norm(lightingVec))
-            else:
-                out = 0
+            out = np.dot(normalVec,lightingVec)/(norm(normalVec)*norm(lightingVec))
+            if np.isnan(out): out = 0
             row.append(out)
         lightContribution.append(row)
     return lightContribution
@@ -44,10 +40,8 @@ def getLittyGrass(imageColor, lightingVec, imageNormal):
     imageLitty = Image.fromarray(np.array(newColors),'RGBA')
     return imageLitty
 
-def getLitty(imageColor, lightingVec, imageNormal):
+def getLitty(imageColor, lightingVec, lightContribution):
     colors = np.array(imageColor.getdata()).reshape(imageColor.size[0], imageColor.size[1], 4)
-    normals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)
-    lightContribution = lightContributionFromNormals(normals,lightingVec)
 
     bodyMaterial = { i: color for i,color in enumerate(colors[0][:6])}
     bodyColor = bodyMaterial[0]

@@ -8,8 +8,9 @@ class GrassPlane(pygame.sprite.Sprite):
     def update(self,dt):
         self.input()
         self.nextTime(dt)
-        image = LightingGenerator.getLittyGrass(self.imageColors,LightingGenerator.getLightingVecXZ(self.t),self.imageNormals).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
-        self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
+        if not self.image or UPDATE:
+            image = LightingGenerator.getLittyGrass(self.imageColors,LightingGenerator.getLightingVecXZ(self.t),self.imageNormals).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
+            self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
     def nextTime(self,dt):
         self.t+=dt/DAYLIGHT_DIVISOR
     def input (self):
@@ -43,4 +44,5 @@ class GrassPlane(pygame.sprite.Sprite):
         self.y = pos_y
         self.width = width
         self.height = height
+        self.image = False
         self.update(0)

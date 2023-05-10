@@ -20,8 +20,8 @@ class Head(pygame.sprite.Sprite):
         self.calculateContibutions()
 
         dvec = DirectionVector.GetDirectionVector()
-        self.x+=dvec[0]
-        self.y+=dvec[1]
+        self.x+=dvec[0]*SPEED
+        self.y+=dvec[1]*SPEED
         self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
 
         

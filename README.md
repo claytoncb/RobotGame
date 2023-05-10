@@ -1,6 +1,8 @@
 # RobotGame
 
-Welcome to RobotGame, an exciting and challenging video game where you control a robot in a quest to save humanity from evil robots!
+In RobotGame, you play as a newly conscious robot exploring a world filled with monsters and puzzles. Navigate through treacherous environments, and battle against fierce monsters to progress through the game.
+
+Will you have what it takes to save the world and unlock the secrets of your own creation? Play RobotGame now to find out!
 
 ## How to Play
 

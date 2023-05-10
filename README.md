@@ -22,11 +22,10 @@ python .\src\Game.py
 
 ## Controls
 
-- Use the left mouse button to move your robot. Simply click on the screen where you want your robot to go. &#10003;
-- Use the right mouse button to shoot lasers at the enemies.  &#x274C;
-- Collect power-ups to increase your health and weapons.  &#x274C;
-- Avoid obstacles and enemy fire to stay alive. &#x274C;
-
+- Use the left mouse button to move your robot. Simply click on the screen where you want your robot to go. ✔
+- Use the right mouse button to shoot lasers at the enemies.  ❌
+- Collect power-ups to increase your health and weapons.  ❌
+- Avoid obstacles and enemy fire to stay alive. ❌
 ## Requirements
 
 To run RobotGame, you'll need the following software:

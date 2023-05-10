@@ -6,20 +6,17 @@ Welcome to RobotGame, an exciting and challenging video game where you control a
 
 To play RobotGame, please follow these steps:
 
-1. Clone the repository to your local machine:
-
+# Clone the repository to your local machine
 git clone https://github.com/yourusername/RobotGame.git
 
-2. Navigate to the `src` directory:
-
+# Navigate to the `src` directory:
 cd RobotGame/src
 
-3. Run the game using Python:
-
+# Run the game using Python:
 python Game.py
 
 
-4. Enjoy the game and save humanity!
+# Enjoy the game and save humanity!
 
 ## Controls
 

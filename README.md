@@ -33,7 +33,7 @@ To run RobotGame, you'll need the following software:
 - Python 3.x
 - Pygame library
 <br/>
-Please note that RobotGame has been tested using Pygame 2.4.0 and Python 3.10.7. While it may work with other versions of these software packages, we cannot guarantee full compatibility.
+Please note that RobotGame has been tested using Pygame 2.4.0 and Python 3.10.7. While it may work with other versions of these software packages, I cannot guarantee full compatibility.
 
 ## Credits
 

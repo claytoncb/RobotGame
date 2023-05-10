@@ -9,11 +9,11 @@ To play RobotGame, please follow these steps:
 ### Clone the repository to your local machine
 git clone https://github.com/yourusername/RobotGame.git
 
-### Navigate to the `src` directory:
-cd RobotGame/src
+### Navigate to the `RobotGame` directory:
+cd .\RobotGame
 
 ### Run the game using Python:
-python Game.py
+python .\src\Game.py
 
 
 ### Enjoy the game and save humanity!

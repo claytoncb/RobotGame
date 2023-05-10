@@ -67,10 +67,10 @@ def reverse_rows_and_save(filenames):
     for i,img in enumerate(filenames):
 
         # Reverse the rows of the image
-        #rgb = Image.Image.split(img)
+        rgb = Image.Image.split(img)
 
         # Swap the red and blue channels
-        #img = Image.merge("RGBA", (rgb[2], rgb[1], rgb[0],rgb[3]))
+        img = Image.merge("RGBA", (rgb[2], rgb[1], rgb[0],rgb[3]))
 
         
         arr = np.array(img)
@@ -98,15 +98,15 @@ def reverse_rows_and_save(filenames):
         # Paste the flipped image back into the original image
 
         # Create the new filename
-        new_filename = f"src\\Textures\\RobotBoy\\robotBoyColorRight{i}.png"
+        new_filename = f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i+100}.png"
 
         # Save the reversed image to the new filename
         img.save(new_filename)
 
 #keyframes = [0,1,2,1,0,3,4,3]
-keyframes = [0,1,2,3,4]
-imageColors = [ Image.open(f"src\\Textures\\RobotBoy\\robotBoyColor{i}.png") for i in keyframes ]
-imageNormals = [ Image.open(f"src\\Textures\\RobotBoy\\robotBoyNormals{i}.png") for i in keyframes ]
+keyframes = [8,7,2,1]
+imageColors = [ Image.open(f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i}.png") for i in keyframes ]
+#imageNormals = [ Image.open(f"src\\Textures\\RobotBoy\\robotBoyNormals{i}.png") for i in keyframes ]
 #makeGif(imageColors,imageNormals,keyframes)
 reverse_rows_and_save(imageColors)
 #getLitty(imageColor,np.array([-1,0,1]),imageNormal).show()

@@ -13,8 +13,8 @@ class Level:
         #sprite groups
         self.all_sprites = pygame.sprite.Group()
         self.robot = pygame.sprite.Group()
-        self.body = Body(64,64,SCREEN_WIDTH/2-50,SCREEN_HEIGHT/2-50,SCALE)
-        self.head = Head(64,64,SCREEN_WIDTH/2-50,SCREEN_HEIGHT/2-50,SCALE)
+        self.body = Body(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32,SCALE)
+        self.head = Head(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32,SCALE)
         self.robot.add(self.body)
         self.robot.add(self.head)
         self.grassPlanes = pygame.sprite.Group()

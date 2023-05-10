@@ -1,9 +1,9 @@
 import numpy as np
 import pygame
 from numpy.linalg import norm
-def GetDirectionVector():
+def GetDirectionVector(px,py):
     x,y = pygame.mouse.get_pos()
-    direction = np.array([((y-256)/256),((x-256)/256)])
+    direction = np.array([((x-px-32)),((y-py-32))])
     normDirection = direction/norm(direction)
-    scaledNormDirection = [normDirection[1],normDirection[0]]
-    return scaledNormDirection
+    scaledNormDirection = [normDirection[0],normDirection[1]]
+    return scaledNormDirection, norm(direction) if pygame.mouse.get_pressed()[0] else 0

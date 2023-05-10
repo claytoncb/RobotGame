@@ -16,9 +16,10 @@ class Body(pygame.sprite.Sprite):
         
         self.nextTime(dt)
         self.calculateContibutions()
-        dvec = DirectionVector.GetDirectionVector()
-        self.x+=dvec[0]*SPEED
-        self.y+=dvec[1]*SPEED
+        dvec,mag = DirectionVector.GetDirectionVector(self.x,self.y)
+        if mag > WANDER_DIST:
+            self.x+=dvec[0]*SPEED
+            self.y+=dvec[1]*SPEED
         self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
 
         

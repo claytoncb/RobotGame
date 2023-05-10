@@ -1,6 +1,6 @@
 import pygame, sys
 
-from Entities.RobotBoy import RobotBoy
+from Entities.RobotBoy import Head
 from Entities.Grass import GrassPlane
 
     
@@ -11,7 +11,7 @@ screen_width = screen_height = 1024
 screen = pygame.display.set_mode((screen_width, screen_height), flags=pygame.SCALED, vsync=1)
 pygame.display.set_caption("RoboLad")
 
-robotGuy = RobotBoy.RobotBoy(64,64,screen_width/2-50,screen_height/2-50,0)
+robotGuy = Head.RobotBoy(64,64,screen_width/2-50,screen_height/2-50,0)
 grassPlanes = [GrassPlane.GrassPlane(64,64,screen_width/2+36*i,screen_height/2-56*i,0) for i in range(5)]
 
 group = pygame.sprite.Group()
@@ -58,23 +58,23 @@ while main:
             for object in group:
                 object.nextAnimation()
                 if grassPlane.movingLeft:
-                    if not isinstance(object, RobotBoy.RobotBoy):
+                    if not isinstance(object, Head.RobotBoy):
                         object.x+=16
                     robotGuy.imageColors = robotGuy.imageColorsLeft
                     robotGuy.imageNormals= robotGuy.imageNormalsLeft
                 elif grassPlane.movingRight:
-                    if not isinstance(object, RobotBoy.RobotBoy):
+                    if not isinstance(object, Head.RobotBoy):
                         object.x-=16
                     robotGuy.imageColors = robotGuy.imageColorsRight
                     robotGuy.imageNormals= robotGuy.imageNormalsRight
                 if grassPlane.movingDown:
-                    if not isinstance(object, RobotBoy.RobotBoy):
+                    if not isinstance(object, Head.RobotBoy):
                         object.y-=8
                 elif grassPlane.movingUp:
-                    if not isinstance(object, RobotBoy.RobotBoy):
+                    if not isinstance(object, Head.RobotBoy):
                         object.y+=8
                 if (grassPlane.movingRight or grassPlane.movingLeft) or (grassPlane.movingUp or grassPlane.movingDown):
-                    if not isinstance(object, RobotBoy.RobotBoy):
+                    if not isinstance(object, Head.RobotBoy):
                         object.rect = pygame.rect.Rect(object.x, object.y, object.width, object.height)
         screen.fill([0,0,0,0])
         for object in group:

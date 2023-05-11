@@ -3,17 +3,26 @@ import numpy as np
 import math
 from numpy.linalg import norm
 
+def normalsFromNormals(normals):
+    new_normals = []
+    for row, norm_row in enumerate(normals):
+        for col, norm in enumerate(norm_row):
+            if norm[3]>0:
+                new_normals.append(((row,col),norm))
+    return new_normals
+
 def lightContributionFromNormals(normals, lightingVec):
     lightContribution = []
-    for row, normalRows in enumerate(normals):
-        for col, normal in enumerate(normalRows):
-            if normal[3]>0:
+    for normal_tup in normals:
+        row = normal_tup[0][0]
+        col = normal_tup[0][1]
+        normal = normal_tup[1]
+        if normal[3]>0:
                 normalVec = np.array([(normal[0]-127),(normal[1]-127),(normal[2]-127)])
                 lightingVec = lightingVec / norm(lightingVec)
                 normalVec = normalVec / norm(normalVec)
                 out = np.dot(normalVec,lightingVec)/(norm(normalVec)*norm(lightingVec))
-                if not np.isnan(out):
-                    lightContribution.append(((row,col),out))
+                lightContribution.append(((row,col),out))
     return lightContribution
 
 def getLittyGrass(imageColor, lightContribution):

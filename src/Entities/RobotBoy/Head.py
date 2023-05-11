@@ -42,7 +42,7 @@ class Head(pygame.sprite.Sprite):
         self.directions = [12,1,2,3,4,5,6,7,8,9,10,11]
         #self.keyframes = [0,2,0,4]
         self.imageColors= [ Image.open(f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i}C.png") for i in self.directions ]
-        self.imageNormals = [np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4) for imageNormal in[ Image.open(f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i}.png") for i in self.directions ]]
+        self.imageNormals = [LightingGenerator.normalsFromNormals(np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)) for imageNormal in[ Image.open(f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i}.png") for i in self.directions ]]
         self.t = 0
         self.z = 0
 

@@ -20,7 +20,7 @@ class Level:
         self.robot.add(self.body)
         self.robot.add(self.head)
         self.plane = GrassPlane(64,64,SCREEN_WIDTH/2+18,SCREEN_HEIGHT/2-28,SCALE)
-        for plane in [GrassPlane(64,64,SCREEN_WIDTH/2+18*i,SCREEN_HEIGHT/2-28*i,SCALE) for i in range(2)]:
+        for plane in [GrassPlane(64,64,SCREEN_WIDTH/2+18*i,SCREEN_HEIGHT/2-28*i,SCALE) for i in range(12)]:
             self.all_sprites.add(plane)
         self.all_sprites.add(self.robot)
         

@@ -2,6 +2,7 @@ from PIL import Image
 import numpy as np
 import math
 from numpy.linalg import norm
+import pygame
 
 def normalsFromNormals(normals):
     new_normals = []
@@ -40,9 +41,7 @@ def getLittyGrass(imageColor, lightContribution):
                 material = bodyMaterial
                 newColors[row][col] = material[math.floor(contribution*(len(material)/2)+(len(material)/2))]
     
-
-    imageLitty = Image.fromarray(np.array(newColors),'RGBA')
-    return imageLitty
+    return pygame.image.fromstring(bytes(np.array(newColors, dtype=np.uint8).reshape(((imageColor.size[0]*imageColor.size[1]))*4)), imageColor.size, 'RGBA')
 
 def getLitty(imageColor, lightContribution):
     colors = np.array(imageColor.getdata()).reshape(imageColor.size[0], imageColor.size[1], 4)
@@ -74,8 +73,8 @@ def getLitty(imageColor, lightContribution):
                 
             
 
-    imageLitty = Image.fromarray(np.array(newColors),'RGBA')
-    return imageLitty
+    
+    return pygame.image.fromstring(bytes(np.array(newColors, dtype=np.uint8).reshape(((imageColor.size[0]*imageColor.size[1]))*4)), imageColor.size, 'RGBA')
 
 def getLightingVecXZ(z):
     return np.array([(math.cos(z/18)),(math.cos(z/18-math.pi/4)),(math.sin(z/18))])

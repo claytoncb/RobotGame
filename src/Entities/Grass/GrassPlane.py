@@ -18,8 +18,7 @@ class GrassPlane(pygame.sprite.Sprite):
         if not self.image or UPDATE:
             self.nextTime(dt)
             self.calculateContibutions()
-            image = LightingGenerator.getLittyGrass(self.imageColors,self.lightContributions).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
-            self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
+            self.image = LightingGenerator.getLittyGrass(self.imageColors,self.lightContributions)
             
     def nextTime(self,dt):
         self.t+=dt

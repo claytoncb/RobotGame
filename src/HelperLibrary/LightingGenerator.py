@@ -17,12 +17,11 @@ def lightContributionFromNormals(normals, lightingVec):
         row = normal_tup[0][0]
         col = normal_tup[0][1]
         normal = normal_tup[1]
-        if normal[3]>0:
-                normalVec = np.array([(normal[0]-127),(normal[1]-127),(normal[2]-127)])
-                lightingVec = lightingVec / norm(lightingVec)
-                normalVec = normalVec / norm(normalVec)
-                out = np.dot(normalVec,lightingVec)/(norm(normalVec)*norm(lightingVec))
-                lightContribution.append(((row,col),out))
+        normalVec = np.array([(normal[0]-127),(normal[1]-127),(normal[2]-127)])
+        lightingVec = lightingVec / norm(lightingVec)
+        normalVec = normalVec / norm(normalVec)
+        out = np.dot(normalVec,lightingVec)/(norm(normalVec)*norm(lightingVec))
+        lightContribution.append(((row,col),out))
     return lightContribution
 
 def getLittyGrass(imageColor, lightContribution):

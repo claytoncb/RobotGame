@@ -15,7 +15,6 @@ class Body(pygame.sprite.Sprite):
     def update(self,dt):
         
         self.nextTime(dt)
-        self.calculateContibutions()
         dvec,mag = DirectionVector.GetDirectionVector(self.x,self.y)
         if mag > WANDER_DIST:
             self.x+=dvec[0]*SPEED
@@ -26,7 +25,8 @@ class Body(pygame.sprite.Sprite):
 
         
         if not self.image or UPDATE:
-            image = LightingGenerator.getLitty(self.imageColors,LightingGenerator.getLightingVecXZ(self.t),self.lightContributions).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
+            self.calculateContibutions()
+            image = LightingGenerator.getLitty(self.imageColors,self.lightContributions).resize((self.scale,self.scale), resample=Image.Resampling.NEAREST )
             self.image = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
             
     def nextTime(self,dt):

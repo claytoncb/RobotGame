@@ -24,6 +24,7 @@ def lightContributionFromNormals(normals, lightingVec):
         out = np.dot(normalVec,lightingVec)/(norm(normalVec)*norm(lightingVec))
         lightContribution.append(((row,col),out))
     return lightContribution
+    
 
 def getLittyGrass(imageColor, lightContribution):
     colors = np.array(imageColor.getdata()).reshape(imageColor.size[0], imageColor.size[1], 4)

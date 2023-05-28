@@ -7,10 +7,6 @@ from settings import *
 import numpy as np
 
 class Body(pygame.sprite.Sprite):
-    def calculateContibutions(self):
-        self.lightContributions = LightingGenerator.lightContributionFromNormals(self.imageNormals ,LightingGenerator.getLightingVecXZ(self.t))
-        
-
         
     def update(self,dt):
         
@@ -25,8 +21,7 @@ class Body(pygame.sprite.Sprite):
 
         
         if not self.image or UPDATE:
-            self.calculateContibutions()
-            self.image = LightingGenerator.getLitty(self.imageColors,self.lightContributions)
+            self.image = LightingGenerator.getLitty(self.imageNormals, self.imageColors, (self.width, self.height),LightingGenerator.getLightingVecXZ(self.t))
             
     def nextTime(self,dt):
         self.t+=dt
@@ -35,15 +30,11 @@ class Body(pygame.sprite.Sprite):
             
     def __init__(self,width, height, pos_x, pos_y, scale):
         super().__init__()
-        self.directions = [12,1,2,3,4,5,6,7,8,9,10,11]
-        #self.keyframes = [0,2,0,4]
         self.imageColors= Image.open(f"src\\Entities\\RobotBoy\\Textures\\body\\BodyC.png")
         imageNormal = Image.open(f"src\\Entities\\RobotBoy\\Textures\\body\\Body.png")
-        self.imageNormals = LightingGenerator.normalsFromNormals(np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4))
+        self.imageNormals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)
         self.t = 0
         self.z = 0
-        
-        self.calculateContibutions()
         
         self.scale=scale
         

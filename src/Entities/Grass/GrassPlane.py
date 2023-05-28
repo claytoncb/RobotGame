@@ -2,14 +2,10 @@ import pygame
 from PIL import Image
 import math
 from HelperLibrary import LightingGenerator
-from HelperLibrary import DirectionVector
 from settings import *
 import numpy as np
 
 class GrassPlane(pygame.sprite.Sprite):
-    def calculateContibutions(self):
-        self.lightContributions = LightingGenerator.lightContributionFromNormals(self.imageNormals ,LightingGenerator.getLightingVecXZ(self.t))
-        
 
         
     def update(self,dt):
@@ -17,8 +13,7 @@ class GrassPlane(pygame.sprite.Sprite):
         
         if not self.image or UPDATE:
             self.nextTime(dt)
-            self.calculateContibutions()
-            self.image = LightingGenerator.getLittyGrass(self.imageColors,self.lightContributions)
+            self.image = LightingGenerator.getLitty(self.imageNormals, self.imageColors, (self.width, self.height),LightingGenerator.getLightingVecXZ(self.t))
             
     def nextTime(self,dt):
         self.t+=dt
@@ -29,11 +24,9 @@ class GrassPlane(pygame.sprite.Sprite):
         super().__init__()
         self.imageColors= Image.open(f"src\\Entities\\Grass\\grassColor.png")
         imageNormal = Image.open(f"src\\Entities\\Grass\\grassNormals.png")
-        self.imageNormals = LightingGenerator.normalsFromNormals(np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4))
+        self.imageNormals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)
         self.t = 0
         self.z = 0
-        
-        self.calculateContibutions()
         
         self.scale=scale
         

@@ -15,14 +15,13 @@ class Level:
         #sprite groups
         self.all_sprites = CameraGroup()
         self.robot = pygame.sprite.Group()
-        self.body = Body(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32,SCALE)
-        self.head = Head(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32,SCALE)
+        self.body = Body(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 0, SCALE)
+        self.head = Head(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 32, SCALE)
         self.robot.add(self.body)
         self.robot.add(self.head)
-        self.plane = GrassPlane(64,64,SCREEN_WIDTH/2+18,SCREEN_HEIGHT/2-28,SCALE)
         for j in range(8):
             for i in range(8):
-                plane = GrassPlane(64,64,64*i,64*j,SCALE) 
+                plane = GrassPlane(64, 64, 64*i, 64*j, 0, SCALE) 
                 self.all_sprites.add(plane)
         self.all_sprites.add(self.robot)
         

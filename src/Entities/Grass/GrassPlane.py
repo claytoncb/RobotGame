@@ -20,13 +20,13 @@ class GrassPlane(pygame.sprite.Sprite):
 
             
             
-    def __init__(self,width, height, pos_x, pos_y, scale):
+    def __init__(self,width, height, pos_x, pos_y, pos_z, scale):
         super().__init__()
         self.imageColors= Image.open(f"src\\Entities\\Grass\\grassColor.png")
         imageNormal = Image.open(f"src\\Entities\\Grass\\grassNormals.png")
         self.imageNormals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)
         self.t = 0
-        self.z = 0
+        self.z = pos_z
         
         self.scale=scale
         

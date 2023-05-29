@@ -11,9 +11,10 @@ class Head(pygame.sprite.Sprite):
         
         self.nextTime(dt)
         
-        self.input()
+        
         dvec,mag = DirectionVector.GetDirectionVector(self.x,self.y)
         self.speed = .2*dvec*mag+.8*self.speed
+        self.input()
         self.x+=self.speed[0]
         self.y+=self.speed[1]
         self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
@@ -24,13 +25,14 @@ class Head(pygame.sprite.Sprite):
             
     def nextTime(self,dt):
         self.t+=dt
+        
     def input (self):
         x,y = pygame.mouse.get_pos()
-        self.z = (math.floor(math.atan2(((y-self.y)/256),((-32+x-self.x)/256))/math.pi*6+6.5)-3)%12
+        self.z = (math.floor(math.atan2(self.speed[1],self.speed[0])/math.pi*6+6.5)-3)%12
 
             
             
-    def __init__(self,width, height, pos_x, pos_y, scale):
+    def __init__(self,width, height, pos_x, pos_y, pos_z, scale):
         super().__init__()
         self.speed=0
         self.directions = [12,1,2,3,4,5,6,7,8,9,10,11]
@@ -38,7 +40,7 @@ class Head(pygame.sprite.Sprite):
         self.imageColors= [ Image.open(f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i}C.png") for i in self.directions ]
         self.imageNormals = [np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4) for imageNormal in[ Image.open(f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i}.png") for i in self.directions ]]
         self.t = 0
-        self.z = 0
+        self.z = pos_z
 
         self.movingLeft = True
         self.movingRight = False

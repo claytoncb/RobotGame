@@ -12,9 +12,9 @@ class Body(pygame.sprite.Sprite):
         
         self.nextTime(dt)
         dvec,mag = DirectionVector.GetDirectionVector(self.x,self.y)
-        if mag > WANDER_DIST:
-            self.x+=dvec[0]*SPEED
-            self.y+=dvec[1]*SPEED
+        self.speed = .2*dvec*mag+.8*self.speed
+        self.x+=self.speed[0]
+        self.y+=self.speed[1]
         self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
 
         
@@ -30,6 +30,7 @@ class Body(pygame.sprite.Sprite):
             
     def __init__(self,width, height, pos_x, pos_y, scale):
         super().__init__()
+        self.speed=0
         self.imageColors= Image.open(f"src\\Entities\\RobotBoy\\Textures\\body\\BodyC.png")
         imageNormal = Image.open(f"src\\Entities\\RobotBoy\\Textures\\body\\Body.png")
         self.imageNormals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)

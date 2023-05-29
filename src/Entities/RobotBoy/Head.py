@@ -13,9 +13,9 @@ class Head(pygame.sprite.Sprite):
         
         self.input()
         dvec,mag = DirectionVector.GetDirectionVector(self.x,self.y)
-        if mag > WANDER_DIST:
-            self.x+=dvec[0]*SPEED
-            self.y+=dvec[1]*SPEED
+        self.speed = .2*dvec*mag+.8*self.speed
+        self.x+=self.speed[0]
+        self.y+=self.speed[1]
         self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
 
         
@@ -32,6 +32,7 @@ class Head(pygame.sprite.Sprite):
             
     def __init__(self,width, height, pos_x, pos_y, scale):
         super().__init__()
+        self.speed=0
         self.directions = [12,1,2,3,4,5,6,7,8,9,10,11]
         #self.keyframes = [0,2,0,4]
         self.imageColors= [ Image.open(f"src\\Entities\\RobotBoy\\Textures\\head\\Head{i}C.png") for i in self.directions ]

@@ -4,6 +4,7 @@ from pygame.sprite import AbstractGroup
 from Entities.Grass.GrassPlane import GrassPlane
 from Entities.RobotBoy.Body import Body
 from Entities.RobotBoy.Head import Head
+from Entities.Ship.Ship import Ship
 from settings import *
 
 class Level:
@@ -17,13 +18,15 @@ class Level:
         self.robot = pygame.sprite.Group()
         self.body = Body(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 0, SCALE)
         self.head = Head(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 32, SCALE)
+        self.ship = Ship(32,32,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 32, SCALE)
         self.robot.add(self.body)
         self.robot.add(self.head)
         for j in range(8):
             for i in range(8):
                 plane = GrassPlane(64, 64, 64*i, 64*j, 0, SCALE) 
                 self.all_sprites.add(plane)
-        self.all_sprites.add(self.robot)
+        #self.all_sprites.add(self.robot)
+        self.all_sprites.add(self.ship)
         
 
     def run(self,dt):

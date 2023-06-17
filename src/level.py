@@ -5,6 +5,7 @@ from Entities.Grass.GrassPlane import GrassPlane
 from Entities.RobotBoy.Body import Body
 from Entities.RobotBoy.Head import Head
 from Entities.Ship.Ship import Ship
+from Entities.Ship.Mast import Mast
 from settings import *
 
 class Level:
@@ -15,18 +16,19 @@ class Level:
 
         #sprite groups
         self.all_sprites = CameraGroup()
-        self.robot = pygame.sprite.Group()
+        self.vessel = pygame.sprite.Group()
         self.body = Body(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 0, SCALE)
         self.head = Head(64,64,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 32, SCALE)
         self.ship = Ship(32,32,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 32, SCALE)
-        self.robot.add(self.body)
-        self.robot.add(self.head)
+        self.mast = Mast(32,32,SCREEN_WIDTH/2-32,SCREEN_HEIGHT/2-32, 32, SCALE)
+        self.vessel.add(self.ship)
+        self.vessel.add(self.mast)
         for j in range(8):
             for i in range(8):
                 plane = GrassPlane(64, 64, 64*i, 64*j, 0, SCALE) 
                 self.all_sprites.add(plane)
         #self.all_sprites.add(self.robot)
-        self.all_sprites.add(self.ship)
+        self.all_sprites.add(self.vessel)
         
 
     def run(self,dt):

@@ -53,16 +53,17 @@ def getLitty(normals, colors, size,lightingVec):
     full_norms[:,1] = norm_dot_product
     full_norms[:,2] = norm_dot_product
 
-    highlights = (bounce_light[:,0] > 1)
+    highlights = (bounce_light[:,0] > .80)
+    bounce_light[highlights] = bounce_light[highlights] - 0.80
 
     color_adjust_dot = np.zeros((size[0]*size[1],3))
 
     #adding darkness when sun angle is low
-    color_adjust_dot=((DARK_COLOR)-full_norms*((DARK_COLOR)-(colors_rgb)))
+    color_adjust_dot=((DARK_COLOR)-full_norms*((DARK_COLOR)-(colors_rgb*.7+LIGHT_COLOR*.3)))
 
     #adding highlights when bounce light is similar to camera angle
     #color_adjust_dot[highlights] = color_adjust_dot[highlights]*(1-bounce_light[highlights]) + LIGHT_COLOR*(bounce_light[highlights])
-    color_adjust_dot[highlights] = ((color_adjust_dot[highlights] + LIGHT_COLOR*(1))/2)
+    color_adjust_dot[highlights] = LIGHT_COLOR*bounce_light[highlights]+(1-bounce_light[highlights])*color_adjust_dot[highlights]
     colors_rgb[maskNotVisible] = 0
     color_adjust_dot.reshape((size[0],size[1],3))
     
@@ -86,5 +87,5 @@ def getLitty(normals, colors, size,lightingVec):
     return pygame.image.fromstring(bytes(np.array(newColors, dtype=np.uint8).reshape(((size[0]*size[1]))*4)), size, 'RGBA')
 
 def getLightingVecXZ(z):
-    return np.array([math.cos(z/(18*DAYLIGHT_DIVISOR)-math.pi*4/9),6*min(math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi/4),0),math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi*4/9)])
+    return np.array([math.cos(z/(18*DAYLIGHT_DIVISOR)-math.pi*4/9),3*math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi/4),math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi*4/9)])
     #return np.array([-math.sin(z/(18*DAYLIGHT_DIVISOR)),2*min(math.sin((z-(7.5*math.pi/2))/(18*DAYLIGHT_DIVISOR)-math.pi/4),0),math.cos(z/(18*DAYLIGHT_DIVISOR))])

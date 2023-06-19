@@ -8,6 +8,20 @@ from settings import *
 def magnitude(vector):
     return np.sqrt(np.sum(np.power(vector,2),axis=1))
 
+def updateWaterNormals(normals,t,offset):
+    x = np.arange(0, 64)
+    y = np.arange(0, 64)
+    xx, yy = np.meshgrid(x, y)
+    result_x = WAVE_AMPLITUDE*np.sin(((xx+t*WAVE_SPEED+offset[0])+(yy+t*WAVE_SPEED+offset[1])*2)*math.pi/64)
+    result_z = WAVE_AMPLITUDE*np.cos(((xx+t*WAVE_SPEED+offset[0])+(yy+t*WAVE_SPEED+offset[1])*2)*math.pi/64)
+    combined_wave = np.ones((64,64,4))*255
+    combined_wave[:,:,0] = result_x
+    combined_wave[:,:,1] = 240
+    combined_wave[:,:,2] = result_z
+    
+    normals=np.array(combined_wave,dtype=np.int32)
+    return normals
+
 def getLitty(normals, colors, size,lightingVec):
     lightingVec = lightingVec/norm(lightingVec)
     #mask of visible colors
@@ -53,8 +67,8 @@ def getLitty(normals, colors, size,lightingVec):
     full_norms[:,1] = norm_dot_product
     full_norms[:,2] = norm_dot_product
 
-    highlights = (bounce_light[:,0] > .80)
-    bounce_light[highlights] = bounce_light[highlights] - 0.80
+    highlights = (bounce_light[:,0] > .70)
+    bounce_light[highlights] = bounce_light[highlights] - 0.70
 
     color_adjust_dot = np.zeros((size[0]*size[1],3))
 

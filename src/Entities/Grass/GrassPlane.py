@@ -13,6 +13,7 @@ class GrassPlane(pygame.sprite.Sprite):
         
         if not self.image or UPDATE:
             self.nextTime(dt)
+            self.imageNormals = LightingGenerator.updateWaterNormals(self.imageNormals,self.t*10,[self.x,self.y])
             self.image = LightingGenerator.getLitty(self.imageNormals, self.imageColors, (self.width, self.height),LightingGenerator.getLightingVecXZ(self.t))
             
     def nextTime(self,dt):

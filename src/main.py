@@ -76,22 +76,22 @@ def reverse_rows_and_save(filenames):
         arr = np.array(img)
 
 # Slice the array to remove the first 6 pixels in the first 3 rows
-        old = np.array(arr[0:3, 0:6, :])
-        arr[0:3, 0:6, :] = 0
+        #old = np.array(arr[0:3, 0:6, :])
+        #arr[0:3, 0:6, :] = 0
 
 # Convert the NumPy array back to an image
         img = Image.fromarray(arr)
 
 
         # Reverse the rows of the cropped image
-        img = img.transpose(method=Image.Transpose.FLIP_LEFT_RIGHT)
+        #img = img.transpose(method=Image.Transpose.FLIP_LEFT_RIGHT)
 
         arr = np.array(img)
 
 # Slice the array to remove the first 6 pixels in the first 3 rows
-        print(f"old values: {old}")
-        arr[0:3, 0:6, :] = old
-        print(f"new values: {arr[0:3, 0:6, :]}")
+        #print(f"old values: {old}")
+        #arr[0:3, 0:6, :] = old
+        #print(f"new values: {arr[0:3, 0:6, :]}")
         #arr = np.roll(arr,-1,axis=1)
         img = Image.fromarray(arr)
         
@@ -99,14 +99,14 @@ def reverse_rows_and_save(filenames):
         # Paste the flipped image back into the original image
 
         # Create the new filename
-        new_filename = f"src\\Entities\\Ship\\Textures\\Ship{i+100}N.png"
+        new_filename = f"src\\Entities\\Ship\\Textures\\mast{i+100}N.png"
 
         # Save the reversed image to the new filename
         img.save(new_filename)
 
 #keyframes = [0,1,2,1,0,3,4,3]
-#keyframes = [1,2,3,4,5]
-imageColors = [ Image.open(f"src\\Entities\\Ship\\Textures\\Ship{i}N.png") for i in keyframes ]
+#keyframes = [1,2,7,8]
+imageColors = [ Image.open(f"src\\Entities\\Ship\\Textures\\mast{i}N.png") for i in keyframes ]
 #imageNormals = [ Image.open(f"src\\Textures\\RobotBoy\\robotBoyNormals{i}.png") for i in keyframes ]
 #makeGif(imageColors,imageNormals,keyframes)
 reverse_rows_and_save(imageColors)

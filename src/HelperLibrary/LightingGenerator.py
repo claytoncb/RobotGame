@@ -9,11 +9,12 @@ def magnitude(vector):
     return np.sqrt(np.sum(np.power(vector,2),axis=1))
 
 def updateWaterNormals(normals,t,offset):
+    t2 = np.sin(t)
     x = np.arange(0, 64)
     y = np.arange(0, 64)
     xx, yy = np.meshgrid(x, y)
-    result_x = WAVE_AMPLITUDE*np.sin(((xx+t*WAVE_SPEED+offset[0])+(yy+t*WAVE_SPEED+offset[1])*2)*math.pi/64)
-    result_z = WAVE_AMPLITUDE*np.cos(((xx+t*WAVE_SPEED+offset[0])+(yy+t*WAVE_SPEED+offset[1])*2)*math.pi/64)
+    result_x = WAVE_AMPLITUDE*np.sin(((xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*2)*math.pi/64)+WAVE_AMPLITUDE*.312*np.cos((.6+(xx+t*WAVE_SPEED+offset[0])-(yy+t*WAVE_SPEED+offset[1])*2)*math.pi/64)
+    result_z = WAVE_AMPLITUDE*np.cos(((xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*2)*math.pi/64)+WAVE_AMPLITUDE*.5*np.sin((.6+(xx+t*WAVE_SPEED+offset[0])-(yy+t*WAVE_SPEED+offset[1])*2)*math.pi/64)
     combined_wave = np.ones((64,64,4))*255
     combined_wave[:,:,0] = result_x
     combined_wave[:,:,1] = 240

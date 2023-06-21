@@ -35,8 +35,8 @@ class Mast(pygame.sprite.Sprite):
     def __init__(self,width, height, pos_x, pos_y, pos_z, scale):
         super().__init__()
         self.speed=0
-        self.directions = [12,9,10,11,12,9,10,11,12,9,10,11,12,9,10,11]
-        self.offsets = [(0,-10),(-1,-7),(-1,-8),(0,-10),(0,-10),(-1,-7),(-1,-8),(0,-10),(0,-10),(-1,-7),(-1,-8),(0,-10),(0,-10),(-1,-7),(-1,-8),(0,-10)]
+        self.directions = [12,1,2,3,4,5,6,7,8,9,10,11]
+        self.offsets = [(0,-14),(-1,-9),(2,-10),(3,-6),(4,-7),(2,-3),(0,-6),(-2,-3),(-4,-7),(-3,-7),(-2,-10),(0,-9)]
         self.imageColors= [ Image.open(f"src\\Entities\\Ship\\Textures\\Mast{i}C.png") for i in self.directions ]
         self.imageNormals = [np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4) for imageNormal in[ Image.open(f"src\\Entities\\Ship\\Textures\\Mast{i}N.png") for i in self.directions ]]
         self.t = 0

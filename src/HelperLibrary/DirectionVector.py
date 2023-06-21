@@ -7,5 +7,5 @@ def GetDirectionVector(px,py):
     direction = np.array([((x-px-32)),((y-py-32))])
     normDirection = direction/norm(direction)
     scaledNormDirection = np.array([normDirection[0],normDirection[1]])*ACCELERATION
-    mag = norm(direction) if pygame.mouse.get_pressed()[0] else 0
+    mag = norm(direction) if (pygame.mouse.get_pressed()[0] or not PRESS_TO_MOVE) else 0
     return scaledNormDirection, min(mag,MAX_MAG)*SPEED

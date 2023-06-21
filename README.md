@@ -12,6 +12,12 @@ Will you have what it takes to save the world and unlock the secrets of your own
 
 ![ShipInWater4](https://github.com/claytoncb/RobotGame/assets/70668150/640aa74b-adfc-4d7c-a8e3-193b910fed07)
 
+Created Using Normals!
+
+![ship4N](https://github.com/claytoncb/RobotGame/assets/70668150/4f4183a5-73e0-4669-ae37-b4f744400cb4)
+
+![ship4C](https://github.com/claytoncb/RobotGame/assets/70668150/917f1116-d3ef-4d5c-a960-d9757c7df874)
+
 ## How to Play
 
 To play RobotGame, please follow these steps:

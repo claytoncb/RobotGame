@@ -7,10 +7,6 @@ Will you have what it takes to save the world and unlock the secrets of your own
 
 ![ShipInWater](https://github.com/claytoncb/RobotGame/assets/70668150/7e456f14-1950-4bdd-ba4c-a2847ec36f27)
 
-![ShipInWater2](https://github.com/claytoncb/RobotGame/assets/70668150/cf625324-94ea-4b0a-ac0e-ba4418fd64d6)
-
-![ShipInWater3](https://github.com/claytoncb/RobotGame/assets/70668150/9e12f2c7-d75e-4bdf-9dee-0a96fb9d364e)
-
 ![ShipInWater4](https://github.com/claytoncb/RobotGame/assets/70668150/640aa74b-adfc-4d7c-a8e3-193b910fed07)
 
 Created Using Normals!

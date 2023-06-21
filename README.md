@@ -4,6 +4,10 @@ In RobotGame, you play as a newly conscious robot exploring a world filled with 
 
 Will you have what it takes to save the world and unlock the secrets of your own creation? Play RobotGame now to find out!
 
+![ShipInWater](https://github.com/claytoncb/RobotGame/assets/70668150/7e456f14-1950-4bdd-ba4c-a2847ec36f27)
+
+
+
 ## How to Play
 
 To play RobotGame, please follow these steps:

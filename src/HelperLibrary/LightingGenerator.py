@@ -22,7 +22,7 @@ def updateWaterNormals(normals,t,offset,boat):
     circle_xx = xx+offset[0]-boat_x
     circle_yy = yy+offset[1]-boat_y
     dist = np.sqrt(np.square(circle_xx)+np.square(2*(circle_yy)))
-    result_x2 = np.exp(-np.square(0.009*dist))*(WAVE_AMPLITUDE*np.sin(math.pi/64*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/32*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/16*dist+t))/2
+    result_x2 = np.exp(-np.square(0.025*dist))*(WAVE_AMPLITUDE*np.sin(math.pi/64*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/32*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/16*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/8*dist+t))/2
 
     result_x = (result_x + result_x2)
     result_z = (result_z + result_x2)
@@ -31,7 +31,7 @@ def updateWaterNormals(normals,t,offset,boat):
     combined_wave[:,:,0] = result_x
     combined_wave[:,:,1] = 240
     combined_wave[:,:,2] = result_z
-    combined_wave = (0.18)*combined_wave+(1-0.18)*normals
+    combined_wave = (0.1)*combined_wave+(1-0.1)*normals
     normals=np.array(combined_wave,dtype=np.int32)
     return normals
 

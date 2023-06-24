@@ -13,7 +13,7 @@ class GrassPlane(pygame.sprite.Sprite):
         
         if not self.image or UPDATE:
             self.nextTime(dt)
-            self.imageNormals = LightingGenerator.updateWaterNormals(self.imageNormals,self.t*10,[self.x,self.y])
+            self.imageNormals = LightingGenerator.updateWaterNormals(self.imageNormals,self.t*10,[self.x,self.y],self.boat)
             self.image = LightingGenerator.getLitty(self.imageNormals, self.imageColors, (self.width, self.height),LightingGenerator.getLightingVecXZ(self.t))
             
     def nextTime(self,dt):
@@ -21,13 +21,14 @@ class GrassPlane(pygame.sprite.Sprite):
 
             
             
-    def __init__(self,width, height, pos_x, pos_y, pos_z, scale):
+    def __init__(self,width, height, pos_x, pos_y, pos_z, scale,boat):
         super().__init__()
         self.imageColors= Image.open(f"src\\Entities\\Grass\\grassColor.png")
         imageNormal = Image.open(f"src\\Entities\\Grass\\grassNormals.png")
         self.imageNormals = np.array(imageNormal.getdata()).reshape(imageNormal.size[0], imageNormal.size[1], 4)
         self.t = 0
         self.z = pos_z
+        self.boat = boat
         
         self.scale=scale
         

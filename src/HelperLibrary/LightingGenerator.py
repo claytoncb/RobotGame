@@ -8,19 +8,30 @@ from settings import *
 def magnitude(vector):
     return np.sqrt(np.sum(np.power(vector,2),axis=1))
 
-def updateWaterNormals(normals,t,offset):
+def updateWaterNormals(normals,t,offset,boat):
+    boat_x = boat.x + boat.width*3/7
+    boat_y = boat.y + boat.height*5/7
     t=t*WAVE_TIME_SCALE
     t2 = np.sin(t)
-    x = np.arange(0, 64)+np.random.rand(64)*WATER_RANDOMNESS
-    y = np.arange(0, 64)+np.random.rand(64)*WATER_RANDOMNESS
+    x = np.arange(0, 128)
+    y = np.arange(0, 128)
     xx, yy = np.meshgrid(x, y)
     result_x = (2*WAVE_AMPLITUDE*np.sin(((xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*2)*math.pi/32)+2*WAVE_AMPLITUDE*np.sin(((-xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*2)*math.pi/64+t)+WAVE_AMPLITUDE*np.sin(((-xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*1.1)*math.pi/16+t)+WAVE_AMPLITUDE*np.sin(((xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*4)*math.pi/24+t))/6
     result_z = (2*WAVE_AMPLITUDE*np.cos(((xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*2)*math.pi/32)+2*WAVE_AMPLITUDE*np.cos(((-xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*2)*math.pi/64+t)+WAVE_AMPLITUDE*np.cos(((-xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*1.1)*math.pi/16+t)+WAVE_AMPLITUDE*np.cos(((xx+t2*WAVE_SPEED+offset[0])+(yy+t2*WAVE_SPEED+offset[1])*4)*math.pi/24+t))/6
-    combined_wave = np.ones((64,64,4))*255
+    
+    circle_xx = xx+offset[0]-boat_x
+    circle_yy = yy+offset[1]-boat_y
+    dist = np.sqrt(np.square(circle_xx)+np.square(2*(circle_yy)))
+    result_x2 = np.exp(-np.square(0.009*dist))*(WAVE_AMPLITUDE*np.sin(math.pi/64*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/32*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/16*dist+t))/2
+
+    result_x = (result_x + result_x2)
+    result_z = (result_z + result_x2)
+
+    combined_wave = np.ones((128,128,4))*255
     combined_wave[:,:,0] = result_x
     combined_wave[:,:,1] = 240
     combined_wave[:,:,2] = result_z
-    
+    combined_wave = (0.18)*combined_wave+(1-0.18)*normals
     normals=np.array(combined_wave,dtype=np.int32)
     return normals
 
@@ -30,7 +41,6 @@ def getLitty(normals, colors, size,lightingVec):
     maskVisible = (np.array(normals)[:,:,3].reshape((size[0]*size[1])) > 100)
     maskNotVisible = (np.array(normals)[:,:,3].reshape((size[0]*size[1])) == 0)
     
-
     #add dimension to mask for all colors
     expanded_mask = np.repeat(maskVisible[ :, np.newaxis], 4, axis=1).reshape((size[0]*size[1],4))
     
@@ -69,8 +79,8 @@ def getLitty(normals, colors, size,lightingVec):
     full_norms[:,1] = norm_dot_product
     full_norms[:,2] = norm_dot_product
 
-    highlights = (bounce_light[:,0] > .70)
-    bounce_light[highlights] = bounce_light[highlights] - 0.70
+    highlights = (bounce_light[:,0] > .60)
+    bounce_light[highlights] = bounce_light[highlights] - 0.60
 
     color_adjust_dot = np.zeros((size[0]*size[1],3))
 

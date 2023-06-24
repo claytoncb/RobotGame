@@ -51,11 +51,12 @@ class Ship(pygame.sprite.Sprite):
         
         
         self.t = math.pi*12
-        self.x = pos_x
-        self.y = pos_y
-        self.image = False
         self.width = width
         self.height = height
+        self.x = pos_x + self.width*3/7
+        self.y = pos_y + self.height*5/7
+        self.image = False
+        
         self.rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
         self.update(0)
         

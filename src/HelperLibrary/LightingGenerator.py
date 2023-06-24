@@ -31,7 +31,7 @@ def updateWaterNormals(normals,t,offset,boat):
     combined_wave[:,:,0] = result_x
     combined_wave[:,:,1] = 240
     combined_wave[:,:,2] = result_z
-    combined_wave = (0.1)*combined_wave+(1-0.1)*normals
+    combined_wave = (0.3)*combined_wave+(1-0.3)*normals
     normals=np.array(combined_wave,dtype=np.int32)
     return normals
 

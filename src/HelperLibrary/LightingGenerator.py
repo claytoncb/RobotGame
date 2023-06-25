@@ -28,7 +28,7 @@ def updateWaterNormals(normals,t,offset,boat):
     circle_xx_prev = xx+offset[0]-boat_x_prev
     circle_yy_prev = yy+offset[1]-boat_y_prev
     dist_prev = np.sqrt(np.square(circle_xx_prev)+np.square(2*(circle_yy_prev)))
-    result_x2_prev = WAKE_AMPLITUDE*np.exp(-np.square(WAKE_RADIUSISH*dist_prev))*(np.cos(WAKE_FREQ*math.pi/64*dist_prev+t)+np.cos(WAKE_FREQ*math.pi/32*dist_prev+t)+np.cos(WAKE_FREQ*math.pi/16*dist_prev+t)+np.cos(WAKE_FREQ*math.pi/8*dist_prev+t))/2
+    result_x2_prev = WAKE_AMPLITUDE*np.exp(-np.square(.85*WAKE_RADIUSISH*dist_prev))*(np.sin(WAKE_FREQ*math.pi/64*dist_prev+t)+np.sin(WAKE_FREQ*math.pi/32*dist_prev+t)+np.sin(WAKE_FREQ*math.pi/16*dist_prev+t)+np.sin(WAKE_FREQ*math.pi/8*dist_prev+t))/2
 
     result_x = (result_x + result_x2 + result_x2_prev)
     result_z = (result_z + result_x2 + result_x2_prev)
@@ -119,5 +119,8 @@ def getLitty(normals, colors, size,lightingVec):
     return pygame.image.fromstring(bytes(np.array(newColors, dtype=np.uint8).reshape(((size[0]*size[1]))*4)), size, 'RGBA')
 
 def getLightingVecXZ(z):
-    return np.array([math.cos(z/(18*DAYLIGHT_DIVISOR)-math.pi*4/9),3*math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi/4),math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi*4/9)])
+    y=max(3*math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi*12/4),-2.5)
+    x=math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi*3/4)
+    z=-math.sin(z/(18*DAYLIGHT_DIVISOR)-math.pi/4)
+    return np.array([x*y+(1-y)*x,y,z*y+(1-y)*z])
     #return np.array([-math.sin(z/(18*DAYLIGHT_DIVISOR)),2*min(math.sin((z-(7.5*math.pi/2))/(18*DAYLIGHT_DIVISOR)-math.pi/4),0),math.cos(z/(18*DAYLIGHT_DIVISOR))])

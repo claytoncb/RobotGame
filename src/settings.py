@@ -39,5 +39,5 @@ PRESS_TO_MOVE = True
 DARK_COLOR = np.array([50,20,48])
 LIGHT_COLOR = np.array([252,255,245])
 
-CAMERA_ANGLE = np.array([128,150,128])
+CAMERA_ANGLE = np.array([128,196,128])
 SOURCE_CUTOFF = .25

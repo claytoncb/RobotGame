@@ -24,7 +24,7 @@ class Level:
         self.vessel.add(self.ship)
         self.vessel.add(self.mast)
         for j in range(4):
-            for i in range(8):
+            for i in range(4):
                 plane = GrassPlane(128, 128, 128*i, 128*j, 0, SCALE,self.ship) 
                 self.all_sprites.add(plane)
         #self.all_sprites.add(self.robot)

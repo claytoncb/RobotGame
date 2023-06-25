@@ -11,6 +11,8 @@ def magnitude(vector):
 def updateWaterNormals(normals,t,offset,boat):
     boat_x = boat.x + boat.width*3/7
     boat_y = boat.y + boat.height*5/7
+    boat_x_prev = boat.x_prev + boat.width*3/7
+    boat_y_prev = boat.y_prev + boat.height*5/7
     t=t*WAVE_TIME_SCALE
     t2 = np.sin(t)
     x = np.arange(0, 128)
@@ -22,16 +24,20 @@ def updateWaterNormals(normals,t,offset,boat):
     circle_xx = xx+offset[0]-boat_x
     circle_yy = yy+offset[1]-boat_y
     dist = np.sqrt(np.square(circle_xx)+np.square(2*(circle_yy)))
-    result_x2 = np.exp(-np.square(0.025*dist))*(WAVE_AMPLITUDE*np.sin(math.pi/64*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/32*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/16*dist+t)+WAVE_AMPLITUDE*np.sin(math.pi/8*dist+t))/2
+    result_x2 = WAKE_AMPLITUDE*np.exp(-np.square(WAKE_RADIUSISH*dist))*(np.sin(WAKE_FREQ*math.pi/64*dist+t)+np.sin(WAKE_FREQ*math.pi/32*dist+t)+np.sin(WAKE_FREQ*math.pi/16*dist+t)+np.sin(WAKE_FREQ*math.pi/8*dist+t))/2
+    circle_xx_prev = xx+offset[0]-boat_x_prev
+    circle_yy_prev = yy+offset[1]-boat_y_prev
+    dist_prev = np.sqrt(np.square(circle_xx_prev)+np.square(2*(circle_yy_prev)))
+    result_x2_prev = WAKE_AMPLITUDE*np.exp(-np.square(WAKE_RADIUSISH*dist_prev))*(np.cos(WAKE_FREQ*math.pi/64*dist_prev+t)+np.cos(WAKE_FREQ*math.pi/32*dist_prev+t)+np.cos(WAKE_FREQ*math.pi/16*dist_prev+t)+np.cos(WAKE_FREQ*math.pi/8*dist_prev+t))/2
 
-    result_x = (result_x + result_x2)
-    result_z = (result_z + result_x2)
+    result_x = (result_x + result_x2 + result_x2_prev)
+    result_z = (result_z + result_x2 + result_x2_prev)
 
     combined_wave = np.ones((128,128,4))*255
     combined_wave[:,:,0] = result_x
     combined_wave[:,:,1] = 240
     combined_wave[:,:,2] = result_z
-    combined_wave = (0.3)*combined_wave+(1-0.3)*normals
+    combined_wave = (WAVE_JOYSTICK_CONTRIBUTION)*combined_wave+(1-WAVE_JOYSTICK_CONTRIBUTION)*normals
     normals=np.array(combined_wave,dtype=np.int32)
     return normals
 

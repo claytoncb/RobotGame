@@ -15,6 +15,8 @@ class Mast(pygame.sprite.Sprite):
         dvec,mag = DirectionVector.GetDirectionVector(self.x,self.y)
         self.speed = JOYSTICK_CONTRIBUTION*dvec*mag+(1-JOYSTICK_CONTRIBUTION)*self.speed
         self.input()
+        self.x_prev = self.x
+        self.y_prev = self.y
         self.x+=self.speed[0]+WIND_VECTOR[0]
         self.y+=self.speed[1]+WIND_VECTOR[1]
         self.rect = pygame.rect.Rect(self.x+self.offsets[self.z%len(self.directions)][0]+WAVE_SHIP_MOVEMENT[0]*np.sin(self.t*WAVE_SHIP_MOVEMENT_FREQ[0]), self.y+self.offsets[self.z%len(self.directions)][1]+WAVE_SHIP_MOVEMENT[1]*np.cos(self.t*WAVE_SHIP_MOVEMENT_FREQ[1]), self.width, self.height)

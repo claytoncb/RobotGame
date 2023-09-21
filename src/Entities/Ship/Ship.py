@@ -17,8 +17,6 @@ class Ship(pygame.sprite.Sprite):
         self.input()
         self.x_prev = self.x
         self.y_prev = self.y
-        self.x+=self.speed[0]+WIND_VECTOR[0]
-        self.y+=self.speed[1]+WIND_VECTOR[1]
         self.rect = pygame.rect.Rect(self.x+WAVE_SHIP_MOVEMENT[0]*np.sin(self.t*WAVE_SHIP_MOVEMENT_FREQ[0]), self.y+WAVE_SHIP_MOVEMENT[1]*np.cos(self.t*WAVE_SHIP_MOVEMENT_FREQ[1]), self.width, self.height)
 
         
@@ -29,7 +27,6 @@ class Ship(pygame.sprite.Sprite):
         self.t+=dt
         
     def input (self):
-        x,y = pygame.mouse.get_pos()
         self.z = (math.floor(math.atan2(self.speed[1],self.speed[0])/math.pi*6+6.5)-3)%12
 
             
